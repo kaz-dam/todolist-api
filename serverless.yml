@@ -2,7 +2,7 @@ service: todolist-api
 
 provider:
   name: aws
-  runtime: python 3.9
+  runtime: python3.9
   stage: dev
   region: eu-north-1
   environment:
