@@ -1,0 +1,9 @@
+{
+  "name": "todolist-api",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "devDependencies": {
+    "serverless": "^3.36.0"
+  }
+}

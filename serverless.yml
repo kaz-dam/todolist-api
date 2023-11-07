@@ -1,0 +1,56 @@
+service: todolist-api
+
+provider:
+  name: aws
+  runtime: python 3.9
+  stage: dev
+  region: eu-north-1
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+functions:
+  app:
+    handler: app.main.handler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: any
+
+resources:
+  Resources:
+    TasksDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+plugins:
+  - serverless-python-requirements
+  - serverless-dynamodb-local
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
