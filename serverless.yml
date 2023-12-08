@@ -45,6 +45,7 @@ resources:
 plugins:
   - serverless-python-requirements
   - serverless-dynamodb-local
+  - serverless-offline
 
 custom:
   pythonRequirements:
@@ -54,3 +55,5 @@ custom:
       port: 8000
       inMemory: true
       migrate: true
+  serverless-offline:
+    httpPort: 3000
