@@ -7,7 +7,11 @@ from ..config import dynamodb_client
 def get_tasks():
     table = dynamodb_client.Table('todolist-api-dev')
     response = table.scan()
-    return response['Items']
+
+    if response['ResponseMetadata']['HTTPStatusCode'] != 200:
+        return ApiResponse(error=True, message="Failed to retrieve tasks", status_code=500)
+    
+    return ApiResponse(data=response['Items'], status_code=200, error=False)
 
 def create_task(task: Task):
     table = dynamodb_client.Table('todolist-api-dev')
