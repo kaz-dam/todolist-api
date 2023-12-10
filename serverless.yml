@@ -44,13 +44,15 @@ resources:
 
 plugins:
   - serverless-python-requirements
-  - serverless-dynamodb-local
+  - serverless-dynamodb
   - serverless-offline
 
 custom:
   pythonRequirements:
     dockerizePip: non-linux
-  dynamodb:
+  serverless-dynamodb:
+    stages:
+      - dev
     start:
       port: 8000
       inMemory: true

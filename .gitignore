@@ -119,3 +119,6 @@ dmypy.json
 # vscode
 .vscode/
 node_modules
+
+# serverless local
+.dynamodb
