@@ -20,3 +20,7 @@ async def create_task(task: Task, task_service: TaskService = Depends(TaskServic
 @router.get("/tasks/{task_id}", response_model=ApiResponse, summary="Get a task by ID")
 async def get_task(task_id: str, task_service: TaskService = Depends(TaskService.get)):
     return task_service.get_task(task_id)
+
+@router.put("/tasks/{task_id}", response_model=ApiResponse, summary="Update a task by ID")
+async def update_task(task_id: str, task: Task, task_service: TaskService = Depends(TaskService.get)):
+    return task_service.update_task(task_id, task)

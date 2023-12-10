@@ -38,6 +38,28 @@ class TaskService:
 
         return ApiResponse(error=False, data=task, status_code=201)
     
+    def update_task(self, task_id: str, task: Task):
+        response = self.table.update_item(
+            Key={'id': task_id},
+            UpdateExpression='SET title = :title, description = :description, due_date = :due_date, done = :done, #order = :order',
+            ExpressionAttributeValues={
+                ':title': task.title,
+                ':description': task.description,
+                ':due_date': task.due_date,
+                ':done': task.done,
+                ':order': task.order
+            },
+            ExpressionAttributeNames={
+                '#order': 'order'
+            },
+            ReturnValues='UPDATED_NEW'
+        )
+
+        if response['ResponseMetadata']['HTTPStatusCode'] != 200:
+            return ApiResponse(error=True, message="Failed to update task", status_code=500)
+
+        return ApiResponse(error=False, data=response['Attributes'], status_code=200)
+    
     @classmethod
     def get(cls):
         return cls()
