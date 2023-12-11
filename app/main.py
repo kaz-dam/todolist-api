@@ -1,23 +1,28 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
+
+from .config import add_security_headers
 from .routes.task_routes import router as task_routes
 
 app = FastAPI()
 handler = Mangum(app)
 
 app.include_router(task_routes)
+
+origins = [
+    "http://localhost:3000",
+    "https://todolist-frontend-kappa.vercel.app/"
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
 )
 
-@app.get("/", summary="Root")
-async def root():
-    return {"message": "Hello World"}
+app.middleware(add_security_headers)
 
 if __name__ == "__main__":
     import uvicorn
