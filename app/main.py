@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
+from os import getenv
 
 from .config import add_security_headers
 from .routes.task_routes import router as task_routes
@@ -23,6 +24,10 @@ app.add_middleware(
 )
 
 app.middleware(add_security_headers)
+
+if getenv("ENV") == "production":
+    app.docs_url = None
+    app.redoc_url = None
 
 if __name__ == "__main__":
     import uvicorn
