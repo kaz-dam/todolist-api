@@ -15,7 +15,7 @@ class TaskService:
         if response['ResponseMetadata']['HTTPStatusCode'] != 200:
             return ApiResponse(error=True, message="Failed to retrieve tasks", status_code=500)
         
-        return ApiResponse(data=response['Items'], status_code=200, error=False)
+        return response['Items']
 
 
     def get_task(self, task_id: str):
@@ -27,7 +27,7 @@ class TaskService:
         if 'Item' not in response:
             return ApiResponse(error=True, message="Task not found", status_code=404)
         
-        return ApiResponse(data=response['Item'], status_code=200, error=False)
+        return response['Item']
 
 
     def create_task(self, task: Task):
@@ -39,7 +39,7 @@ class TaskService:
         if response['ResponseMetadata']['HTTPStatusCode'] != 200:
             return ApiResponse(error=True, message="Failed to create task", status_code=500)
 
-        return ApiResponse(error=False, data=task, status_code=201)
+        return task
     
     def update_task(self, task_id: str, task: Task):
         response = self.table.update_item(
@@ -61,7 +61,7 @@ class TaskService:
         if response['ResponseMetadata']['HTTPStatusCode'] != 200:
             return ApiResponse(error=True, message="Failed to update task", status_code=500)
 
-        return ApiResponse(error=False, data=response['Attributes'], status_code=200)
+        return response['Attributes']
     
     def delete_task(self, task_id: str):
         response = self.table.delete_item(Key={'id': task_id})
@@ -69,7 +69,7 @@ class TaskService:
         if response['ResponseMetadata']['HTTPStatusCode'] != 200:
             return ApiResponse(error=True, message="Failed to delete task", status_code=500)
 
-        return ApiResponse(error=False, message="Task deleted successfully", status_code=200)
+        return response['Attributes']
     
     @classmethod
     def get(cls):
