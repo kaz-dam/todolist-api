@@ -30,6 +30,8 @@ functions:
           path: /{proxy+}
           method: any
           cors: true
+          authorizer:
+            type: AWS_IAM
 
 resources:
   Resources:
