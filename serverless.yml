@@ -10,15 +10,10 @@ provider:
   httpApi:
     cors:
       allowedOrigins:
-        - https://todolist-frontend-kappa.vercel.app
+        - "http://localhost:3000"
+        - "https://todolist-frontend-kappa.vercel.app"
       allowedHeaders:
-        - Content-Type
-        - X-Amz-Date
-        - Authorization
-        - X-Api-Key
-        - X-Amz-Security-Token
-        - X-Amz-User-Agent
-        - X-Amzn-Trace-Id
+        - "*"
       allowedMethods:
         - "*"
   iam:
