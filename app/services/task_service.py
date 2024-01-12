@@ -42,13 +42,14 @@ class TaskService:
         return task
     
     def update_task(self, task_id: str, task: Task):
+        due_date = task.due_date.isoformat() if task.due_date else None
         response = self.table.update_item(
             Key={'id': task_id},
             UpdateExpression='SET title = :title, description = :description, due_date = :due_date, done = :done, #order = :order',
             ExpressionAttributeValues={
                 ':title': task.title,
                 ':description': task.description,
-                ':due_date': task.due_date,
+                ':due_date': due_date,
                 ':done': task.done,
                 ':order': task.order
             },
@@ -64,7 +65,10 @@ class TaskService:
         return response['Attributes']
     
     def delete_task(self, task_id: str):
-        response = self.table.delete_item(Key={'id': task_id})
+        response = self.table.delete_item(
+            Key={'id': task_id},
+            ReturnValues='ALL_OLD'
+        )
 
         if response['ResponseMetadata']['HTTPStatusCode'] != 200:
             return ApiResponse(error=True, message="Failed to delete task", status_code=500)
