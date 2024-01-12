@@ -5,10 +5,10 @@ provider:
   runtime: python3.9
   stage: dev
   region: eu-north-1
-  apiKeys:
-    - name: todolist-api-key
   environment:
     DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
+  httpApi:
+    cors: true
   iam:
     role:
       statements:
@@ -29,9 +29,6 @@ functions:
       - httpApi:
           path: /{proxy+}
           method: any
-          cors: true
-          authorizer:
-            type: AWS_IAM
 
 resources:
   Resources:

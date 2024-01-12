@@ -122,3 +122,4 @@ node_modules
 
 # serverless local
 .dynamodb
+.serverless
