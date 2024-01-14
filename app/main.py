@@ -23,7 +23,7 @@ app.include_router(task_routes)
 #     allow_headers=["*"]
 # )
 
-app.middleware(add_security_headers)
+# app.middleware(add_security_headers)
 
 if getenv("ENV") == "production":
     app.docs_url = None
