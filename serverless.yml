@@ -7,15 +7,6 @@ provider:
   region: eu-north-1
   environment:
     DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
-  httpApi:
-    cors:
-      allowedOrigins:
-        - "http://localhost:3000"
-        - "https://todolist-frontend-kappa.vercel.app"
-      allowedHeaders:
-        - "*"
-      allowedMethods:
-        - "*"
   iam:
     role:
       statements:
