@@ -31,8 +31,8 @@ class TaskService:
 
 
     def create_task(self, task: Task):
-
         task.id = str(uuid4())
+        task.due_date = task.due_date.isoformat() if task.due_date else None
         
         response = self.table.put_item(Item=task.model_dump())
 
